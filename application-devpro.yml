@@ -1,0 +1,46 @@
+server:
+  port: 7001
+
+eureka:
+  client:
+    service-url:
+      #defaultZone: http://eureka1.com:6001/eureka,http://eureka2.com:6002/eureka
+      defaultZone: http://localhost:6001/eureka
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/staff?serverTimezone=GMT
+    username: root
+    password: 54088
+  jackson:
+    date-format: yyyy-MM-dd HH:mm
+    time-zone: GMT+8
+  application:
+    name: user-provider
+
+#整合mybatis
+mybatis:
+  #config-location: mybatis-config.xml
+  type-aliases-package: com.li.entity
+  mapper-locations: classpath:com/li/mapper/*.xml #也可以用注解扫描接口
+  configuration:
+    auto-mapping-behavior: full
+    use-generated-keys: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#熔断的配置
+feign:
+  hystrix:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        #include: "*"
+        include: hystrix.stream
+  endpoint:
+    health:
+      show-details: ALWAYS
+
